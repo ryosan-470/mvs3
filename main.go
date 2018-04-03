@@ -18,17 +18,17 @@ import (
 
 var (
 	// TargetFileName is a file what you want to get from S3
-	TargetFileName string
+	TargetFileName string = os.Getenv("TARGET_FILENAME")
 	// OriginBucket is a bucket name saved TargetFileName
-	OriginBucket string
+	OriginBucket string = os.Getenv("ORIGIN_BUCKET")
 	// OriginRegion is AWS S3 region like "us-west-2"
-	OriginRegion string
+	OriginRegion string = os.Getenv("ORIGIN_REGION")
 	// TargetFileName password if it is encrypted
-	Password string
+	Password string = os.Getenv("PASSWORD") // TODO: Use KMS
 	// TargetBucket is a bucket name to upload document which downloaded from OriginBucket
-	TargetBucket string
+	TargetBucket string = os.Getenv("TARGET_BUCKET")
 	// TargetRegion is AWS S3 region like "ap-northeast-1"
-	TargetRegion string
+	TargetRegion string = os.Getenv("TARGET_REGION")
 )
 
 func main() {

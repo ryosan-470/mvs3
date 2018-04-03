@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  TopicArn:
+    Type: String
+  TargetFileName:
+    Type: String
+  OriginBucket:
+    Type: String
+  OriginRegion:
+    Type: String
+  TargetBucket:
+    Type: String
+  TargetRegion:
+    Type: String
+  
+Resources:
+  App:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: mvs3
+      Runtime: go1.x
+      CodeUri: build
+      Timeout: 120
+      Environment:
+        Variables:
+          TARGET_FILENAME: !Ref TargetFileName
+          ORIGIN_BUCKET: !Ref OriginBucket
+          ORIGIN_REGION: !Ref OriginRegion
+          TARGET_BUCKET: !Ref TargetBucket
+          TARGET_REGION: !Ref TargetRegion
