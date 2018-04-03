@@ -10,6 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/mholt/archiver"
 	"github.com/yeka/zip" // Fork of Go's archive/zip to add reading/writing of password protected zip files.
 )
 
@@ -25,7 +26,8 @@ var (
 )
 
 func main() {
-	downloadFromS3()
+	targzList, _ := unzipWithPassword()
+	fmt.Printf("%v\n", targzList)
 }
 
 func downloadFromS3() error {
@@ -76,4 +78,10 @@ func unzipWithPassword() ([]string, error) {
 		defer r.Close()
 	}
 	return compressedFileList, nil
+}
+
+func extractTarGz(targzList []string) {
+	for _, targz := range targzList {
+		archiver.TarGz.Open(targz, "tmp")
+	}
 }
