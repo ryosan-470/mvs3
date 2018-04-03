@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
+Transform: "AWS::Serverless-2016-10-31"
 
 Parameters:
   TopicArn:
@@ -14,6 +14,8 @@ Parameters:
     Type: String
   TargetRegion:
     Type: String
+  Password:
+    Type: String
   
 Resources:
   App:
@@ -23,6 +25,11 @@ Resources:
       Runtime: go1.x
       CodeUri: build
       Timeout: 120
+      #Events:
+      #  SNSTrigger:
+      #    Type: SNS
+      #    Properties:
+      #      Topic: !Ref TopicArn
       Environment:
         Variables:
           TARGET_FILENAME: !Ref TargetFileName
@@ -30,3 +37,4 @@ Resources:
           ORIGIN_REGION: !Ref OriginRegion
           TARGET_BUCKET: !Ref TargetBucket
           TARGET_REGION: !Ref TargetRegion
+          PASSWORD: !Ref Password
