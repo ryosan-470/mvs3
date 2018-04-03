@@ -17,8 +17,8 @@ import (
 )
 
 var (
-	// TargetFileName is a file what you want to get from S3
-	TargetFileName string = os.Getenv("TARGET_FILENAME")
+	// OriginFileName is a file what you want to get from S3
+	OriginFileName string = os.Getenv("ORIGIN_FILENAME")
 	// OriginBucket is a bucket name saved TargetFileName
 	OriginBucket string = os.Getenv("ORIGIN_BUCKET")
 	// OriginRegion is AWS S3 region like "us-west-2"
@@ -55,7 +55,7 @@ func downloadFromS3() error {
 	}))
 	input := &s3.GetObjectInput{
 		Bucket: aws.String(OriginBucket),
-		Key:    aws.String(TargetFileName),
+		Key:    aws.String(OriginFileName),
 	}
 
 	f, err := os.Create(TargetFileName)

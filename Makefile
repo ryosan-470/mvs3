@@ -18,7 +18,7 @@ deploy:
 			--capabilities CAPABILITY_IAM \
 			--parameter-overrides \
 					TopicArn=${TOPICARN} \
-					TargetFileName=${TARGET_FILENAME} \
+					OriginFileName=${ORIGIN_FILENAME} \
 					OriginBucket=${ORIGIN_BUCKET} \
 					OriginRegion=${ORIGIN_REGION} \
 					TargetBucket=${TARGET_BUCKET} \
