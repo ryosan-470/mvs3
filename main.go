@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
@@ -31,8 +32,21 @@ var (
 )
 
 func main() {
+	lambda.Start(run)
+}
+
+func run() {
 	targzList, _ := unzipWithPassword()
-	fmt.Printf("%v\n", targzList)
+	log.Printf("Unzipped: %v\n", targzList)
+	savedDir, err := ioutil.TempDir("", "doc")
+	if err != nil {
+		log.Fatalln("Failed to create temp dir")
+	}
+	extractTarGz(targzList, savedDir)
+	err = uploadToS3(savedDir)
+	if err != nil {
+		log.Fatalf("Failed to upload %v to S3", targzList)
+	}
 }
 
 func downloadFromS3() error {
